@@ -1,68 +1,28 @@
-# Compiled Object files, Static and Dynamic libs (Shared Objects)
-*.o
-*.a
-*.so
-
-# Executables
+# If you prefer the allow list template instead of the deny list, see community template:
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+#
+# Binaries for programs and plugins
 *.exe
-*.out
-*.app
+*.exe~
+*.dll
+*.so
+*.dylib
 
-# Log files and other generated files
-log/
-*.log
-*.log.*
-*.json
-*.log.0
-
-# Binary files
-*.bin
-*.zip
-
-# Go executables
-bin/
-
-# Go test and benchmark files
+# Test binary, built with `go test -c`
 *.test
-*.prof
 
-# Go tools
-.idea/
-.vscode/
-*/.idea/
-*/.vscode/
-.idea/*
-.vscode/*
-.vscode-test/*
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
 
-# Cache and backup files
-*.swp
-*~
-*.bak
+# Dependency directories (remove the comment below to include it)
+# vendor/
 
-# Build artifacts
-build/
-*.db
-
-# Vendor directory
-vendor/
-
-# IDE-specific files
-.idea
-.vscode
-
-# Generated files and directories
-/_generated/
-/_tools/
-/_output/
-/.gen/
-/go.sum
-# /go.mod
-Gopkg.lock
-
-# Database files
-*.db
+# Go workspace file
+go.work
+gorm.log
+.vscode/launch.json
+go-restapi-sta
 .env
-
-# Dependency directories
-Godeps/
+# Debug file
+__debug_bin*
+logrus.log

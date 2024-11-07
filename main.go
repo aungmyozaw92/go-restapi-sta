@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/aungmyozaw92/go-restapi-sta/cmd"
 	"github.com/aungmyozaw92/go-restapi-sta/config"
+	"github.com/aungmyozaw92/go-restapi-sta/models"
 	"github.com/aungmyozaw92/go-restapi-sta/routes"
 	"github.com/gin-gonic/gin"
 )
@@ -18,11 +20,13 @@ func main() {
 		port = defaultPort
 	}
 
+	cmd.Execute()
+
 	// Connect to Database
 	db := config.GetDB()
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()
-	// models.MigrateTable()
+	models.MigrateTable()
 
 	// Initialize Gin router.
 	r := gin.Default()
