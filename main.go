@@ -9,6 +9,7 @@ import (
 	"github.com/aungmyozaw92/go-restapi-sta/config"
 	"github.com/aungmyozaw92/go-restapi-sta/models"
 	"github.com/aungmyozaw92/go-restapi-sta/routes"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,6 +32,14 @@ func main() {
 	// Initialize Gin router.
 	r := gin.Default()
 
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AddAllowMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+	corsConfig.AddAllowHeaders("token", "Origin", "Content-Type", "Authorization")
+	corsConfig.AddExposeHeaders("Content-Length")
+	corsConfig.AllowCredentials = true
+
+	r.Use(cors.New(corsConfig))
 	// Router
 	routes.SetupRoutes(r)
 	
@@ -41,5 +50,8 @@ func main() {
 }
 
 func customNotFoundHandler(c *gin.Context) {
-	c.JSON(http.StatusNotFound, gin.H{"error": "route not found"})
+	c.JSON(http.StatusNotFound, gin.H{
+			"status":  "error",
+			"message": "route not found",
+		})
 }

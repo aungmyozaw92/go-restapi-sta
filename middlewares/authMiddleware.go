@@ -11,50 +11,20 @@ import (
 
 type authString string
 
-// func AuthMiddleware() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		auth := c.Request.Header.Get("Authorization")
-
-// 		if auth == "" {
-// 			c.Next()
-// 			return
-// 		}
-
-// 		bearer := "Bearer "
-// 		auth = auth[len(bearer):]
-
-// 		validate, err := utils.JwtValidate(auth)
-
-// 		if err != nil || !validate.Valid {
-// 			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-// 			c.Abort()
-// 			return
-// 		}
-
-// 		customClaim, _ := validate.Claims.(*utils.JwtCustomClaim)
-		
-// 		ctx := context.WithValue(c.Request.Context(), authString("auth"), customClaim)
-// 		ctx = context.WithValue(ctx, utils.ContextKeyUserId, customClaim.ID)
-// 		ctx = context.WithValue(ctx, utils.ContextKeyToken, auth)
-// 		c.Request = c.Request.WithContext(ctx)
-// 		c.Next()
-// 	}
-// }
-
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get("Authorization")
+		auth := c.Request.Header.Get("Authorization")
 
-		if token == "" {
+		if auth == "" {
 			c.Next()
 			return
 		}
 
 		bearer := "Bearer "
-		token = token[len(bearer):]
+		auth = auth[len(bearer):]
 
 		// Check if the token is blacklisted
-		// _, exists, err := config.GetRedisValue(token)
+		// _, exists, err := config.GetRedisValue(auth)
 		// if err == nil && exists {
 		// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "token is invalidated"})
 		// 	c.Abort()
@@ -62,7 +32,8 @@ func AuthMiddleware() gin.HandlerFunc {
 		// }
 
 		// Validate the token
-		validate, err := utils.JwtValidate(token)
+		validate, err := utils.JwtValidate(auth)
+		
 		if err != nil || !validate.Valid {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 			c.Abort()
@@ -73,7 +44,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		ctx := context.WithValue(c.Request.Context(), authString("auth"), customClaim)
 		ctx = context.WithValue(ctx, utils.ContextKeyUserId, customClaim.ID)
-		ctx = context.WithValue(ctx, utils.ContextKeyToken, token)
+		ctx = context.WithValue(ctx, utils.ContextKeyToken, auth)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}

@@ -1,13 +1,13 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/aungmyozaw92/go-restapi-sta/models"
 	"github.com/aungmyozaw92/go-restapi-sta/utils"
 	"github.com/gin-gonic/gin"
 )
-
 
 type LoginInput struct {
 	Username string `json:"username" binding:"required"`
@@ -44,7 +44,7 @@ func Login(context *gin.Context) {
 
 func Profile(context *gin.Context) {
    	userId, ok := utils.GetUserIdFromContext(context.Request.Context())
-
+	fmt.Print("userId",userId)
 	if !ok || userId == 0 {
 		context.JSON(http.StatusBadRequest, gin.H{
 			"status":  "error",

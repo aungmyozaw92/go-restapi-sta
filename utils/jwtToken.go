@@ -20,7 +20,7 @@ var jwtSecret = []byte(getJwtSecret())
 func getJwtSecret() string {
 	secret := os.Getenv("API_SECRET")
 	if secret == "" {
-		return "MKitchen-Secret"
+		return "My-Secret"
 	}
 	return secret
 }
