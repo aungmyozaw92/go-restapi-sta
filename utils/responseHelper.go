@@ -12,10 +12,18 @@ func SuccessResponse(c *gin.Context, statusCode int, message string, data interf
 	})
 }
 
-func ErrorResponse(c *gin.Context, statusCode int, message string, errors []map[string]string) {
+func ErrorResponses(c *gin.Context, statusCode int, message string, errors []map[string]string) {
 	c.JSON(statusCode, gin.H{
 		"status":  "error",
 		"message": message,
 		"errors":  errors,
+	})
+}
+
+func ErrorResponse(c *gin.Context, status int, message string, err error) {
+	c.JSON(status, gin.H{
+		"status":  "error",
+		"message": message,
+		"error":  err.Error(),
 	})
 }

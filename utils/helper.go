@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"math/rand"
+	"reflect"
 	"time"
 	"unicode"
 )
@@ -59,4 +60,17 @@ func GenerateUniqueFilename() string {
 	uniqueFilename := fmt.Sprintf("%d_%d", timestamp, random)
 
 	return uniqueFilename
+}
+
+/* generic functions */
+
+func GetTypeName[T any]() string {
+	var v T
+	typeOfT := reflect.TypeOf(v)
+	return typeOfT.Name()
+}
+
+// get type name of struct
+func GetType(i interface{}) string {
+	return reflect.TypeOf(i).Name()
 }

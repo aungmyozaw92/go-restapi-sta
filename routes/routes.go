@@ -22,4 +22,25 @@ func SetupRoutes(r *gin.Engine) {
 
 	protectedRouter.GET("/profile", controllers.Profile)
 	// protectedRouter.POST("/logout", controllers.Logout)
+
+	// role routes
+	roleRouter := protectedRouter.Group("/roles")
+	{
+		roleRouter.POST("", controllers.CreateRole)       // Create role
+		roleRouter.GET("/:id", controllers.GetRole)       // Get Role by ID
+		roleRouter.PUT("/:id", controllers.UpdateRole)    // Update Role by ID
+		roleRouter.DELETE("/:id", controllers.DeleteRole) // Delete Role by ID
+	// 	// roleRouter.GET("", controllers.ListRoles)         // List all Roles
+	}
+
+	// User routes
+	// userRouter := protectedRouter.Group("/users")
+	// {
+	// 	// userRouter.POST("", controllers.CreateUser)       // Create user
+	// 	// userRouter.GET("/:id", controllers.GetUser)       // Get user by ID
+	// 	// userRouter.PUT("/:id", controllers.UpdateUser)    // Update user by ID
+	// 	// userRouter.DELETE("/:id", controllers.DeleteUser) // Delete user by ID
+	// 	// userRouter.GET("", controllers.ListUsers)         // List all users
+	// }
+
 }
