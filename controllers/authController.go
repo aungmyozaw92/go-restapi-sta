@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/aungmyozaw92/go-restapi-sta/models"
@@ -18,55 +17,35 @@ func Login(context *gin.Context) {
 	var input LoginInput
 
 	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{
-			"status":  "error",
-			"message": "Invalid input",
-			"error":   err.Error(),
-		})
+		utils.ErrorResponse(context, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 
 	responseData, err := models.Login(context, input.Username, input.Password)
 	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{
-			"status":  "error",
-			"message": err.Error(),
-		})
+		utils.ErrorResponse(context, http.StatusUnauthorized, err.Error(), nil)
 		return
 	}
 	// Successful login response
-	context.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"message": "Login successful",
-		"data": responseData,
-	})
+	
+	utils.SuccessResponse(context, http.StatusOK, "Login successful", responseData)
+
 }
 
 func Profile(context *gin.Context) {
    	userId, ok := utils.GetUserIdFromContext(context.Request.Context())
-	fmt.Print("userId",userId)
 	if !ok || userId == 0 {
-		context.JSON(http.StatusBadRequest, gin.H{
-			"status":  "error",
-			"message": "user id is required",
-		})
+		utils.ErrorResponse(context, http.StatusBadRequest, "user id is required", nil)
 		return
 	}
 
 	responseData, err := models.GetUser(context,userId)
 
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{
-			"status":  "error",
-			"message": err.Error(),
-		})
+		utils.ErrorResponse(context, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 
-	// Successful login response
-	context.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"message": "success",
-		"data": responseData,
-	})
+	// Successful profile response
+	utils.SuccessResponse(context, http.StatusOK, "success", responseData)
 }

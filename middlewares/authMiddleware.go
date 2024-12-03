@@ -35,7 +35,11 @@ func AuthMiddleware() gin.HandlerFunc {
 		validate, err := utils.JwtValidate(auth)
 		
 		if err != nil || !validate.Valid {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status":  "error",
+				"message": "unauthorized",
+				"error" : err.Error(),
+			})
 			c.Abort()
 			return
 		}
